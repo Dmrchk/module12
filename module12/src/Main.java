@@ -1,23 +1,36 @@
-import java.util.Date;
-
 public class Main {
 
-
-    public static void main(String[] args) throws InterruptedException {
-
-       // task1
-        MultithreadClass thread = new MultithreadClass();
-        int i = 0;
-        thread.start();
-        while (true) {
-            System.out.println( i + " seconds passed T0");
-            i += 1;
-            Thread.sleep(1000);
-            if (i == 10){
-                thread.stop();
-                break;
+        private static void oneSecondThread() throws InterruptedException {
+            int i = 1;
+            while(true) {
+                Thread.sleep(1000);
+                    System.out.println(i + " seconds passed");
+                i++;
             }
         }
-    }
-}
 
+        public static void main(String[] args) throws InterruptedException {
+
+            Thread fiveSecondsThread = new Thread(new FiveSecondsThread());
+            fiveSecondsThread.start();
+            oneSecondThread();
+
+        }
+
+    }
+
+    class FiveSecondsThread implements Runnable {
+
+        @Override
+        public void run() {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("5 seconds passed");
+            }
+            }
+
+        }
